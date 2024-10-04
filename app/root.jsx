@@ -5,6 +5,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
+  useResolvedPath,
+  useRouteError,
 } from "@remix-run/react";
 import styles from "./tailwind.css?url";
 import {
@@ -35,7 +38,7 @@ export function Layout({ children }) {
         <Meta />
         <Links />
       </head>
-      <body className="flex h-screen">
+      <body className="md:flex md:h-screen">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -48,7 +51,7 @@ export default function App() {
   return (
     <>
       <nav className="bg-primary-dark text-white">
-        <ul className="flex flex-col">
+        <ul className="flex md:flex-col">
           <AppNavLink to="/">
             <HomeIcon />
           </AppNavLink>
@@ -66,7 +69,7 @@ export default function App() {
           </AppNavLink>
         </ul>
       </nav>
-      <div className="p-4">
+      <div className="p-4 w-full">
         <Outlet />
       </div>
     </>
@@ -74,6 +77,12 @@ export default function App() {
 }
 
 const AppNavLink = ({ children, to }) => {
+  const path = useResolvedPath(to);
+  const navigation = useNavigation();
+
+  const isLoading =
+    navigation.state === "loading" &&
+    navigation.location.pathname === path.pathname;
   return (
     <li className="w-16">
       <NavLink to={to}>
@@ -81,9 +90,8 @@ const AppNavLink = ({ children, to }) => {
           <div
             className={classNames(
               "py-4 flex justify-center hover:bg-primary-light",
-              {
-                "bg-primary-light": isActive,
-              }
+              isActive ? "bg-primary-light" : "",
+              isLoading ? "animate-pulse bg-primary-light" : ""
             )}
           >
             {children}
@@ -93,3 +101,30 @@ const AppNavLink = ({ children, to }) => {
     </li>
   );
 };
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  console.error("Caught global error:", error);
+
+  // Show detailed error message in development and a generic one in production
+  if (process.env.NODE_ENV === "development") {
+    return (
+      <div className="bg-red-300 border-2 border-red-600 rounded p-4 m-4">
+        <h1>Whoops, something went wrong (Development)!</h1>
+        <p>{error.message}</p>
+        <pre>{error.stack}</pre>
+      </div>
+    );
+  } else {
+    return (
+      <div className="bg-red-300 border-2 border-red-600 rounded p-4 m-4">
+        <h1>Whoops, something went wrong!</h1>
+        <p>
+          We're sorry, but we encountered an unexpected issue. Please try again
+          later.
+        </p>
+      </div>
+    );
+  }
+}

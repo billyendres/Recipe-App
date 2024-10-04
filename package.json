@@ -15,7 +15,9 @@
     "@remix-run/react": "^2.12.1",
     "@remix-run/serve": "^2.12.1",
     "@remix-run/v1-route-convention": "^0.1.4",
+    "@sanity/client": "^6.22.1",
     "classnames": "^2.5.1",
+    "firebase": "^10.14.0",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
