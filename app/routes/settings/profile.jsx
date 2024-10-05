@@ -247,7 +247,7 @@ export default function LibraryManager() {
     <div className="max-w-7xl mx-auto p-8">
       {/* Header Section */}
       <header className="mb-12">
-        <h1 className="text-5xl font-extrabold mb-4 text-center text-primary-dark">
+        <h1 className="text-4xl font-extrabold mb-4 text-center text-primary-dark">
           Welcome to the Digital Library Management System
         </h1>
         <p className="text-xl text-center text-gray-700 max-w-3xl mx-auto">
@@ -298,7 +298,7 @@ export default function LibraryManager() {
             onClick={() => setSelectedGenreId("all")}
           >
             <span className="text-xl font-semibold">View All Books</span>
-            <p className="text-gray-500 text-sm mt-2">
+            <p className="text-white-500 text-sm mt-2">
               Browse our full collection of titles.
             </p>
           </div>
@@ -309,7 +309,7 @@ export default function LibraryManager() {
               key={genre.id}
               className={`p-6 rounded-lg border-2 ${
                 selectedGenreId === genre.id
-                  ? "border-primary bg-primary-light text-white"
+                  ? "border-primary bg-white text-black"
                   : "border-gray-200 bg-white"
               } transition duration-200 ease-in-out transform hover:scale-105 cursor-pointer`}
               onClick={() => setSelectedGenreId(genre.id)}
@@ -343,12 +343,7 @@ export default function LibraryManager() {
               ) : (
                 <>
                   <span className="text-xl font-semibold">{genre.name}</span>
-                  <div className="mt-2 text-sm text-gray-500">
-                    Created on:{" "}
-                    {genre.createdAt
-                      ? new Date(genre.createdAt).toLocaleDateString()
-                      : "Recently Added"}
-                  </div>
+
                   <div className="mt-4 flex justify-between">
                     <button
                       onClick={(e) => {
